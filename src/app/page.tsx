@@ -50,7 +50,7 @@ interface LeaderboardData {
   leaderboard: Leaderboard;
 }
 
-const Leaderboard = () => {
+export default function HomePage() {
   const [region, setRegion] = useState("SE_ASIA");
 
   const handleRegionSelect = (selectedRegion: string) => {
@@ -100,7 +100,7 @@ const Leaderboard = () => {
                       return (
                         <tr
                           key={index}
-                          className="odd:bg-ui-accent-primary even:bg-ui-accent-secondary h-14 overflow-hidden rounded-lg text-tx-primary"
+                          className="h-14 overflow-hidden rounded-lg text-tx-primary odd:bg-ui-accent-primary even:bg-ui-accent-secondary"
                         >
                           <td>{player.rank}</td>
                           <td>
@@ -159,6 +159,4 @@ const Leaderboard = () => {
       </div>
     </div>
   );
-};
-
-export default Leaderboard;
+}

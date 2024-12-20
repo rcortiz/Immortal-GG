@@ -1,11 +1,9 @@
 import React from "react";
 
-const Loader = () => {
+export default function Spinner() {
   return (
-    <div className="h-40 flex items-center justify-center">
+    <div className="flex h-40 items-center justify-center">
       <span className="loading loading-dots loading-lg"></span>
     </div>
   );
-};
-
-export default Loader;
+}

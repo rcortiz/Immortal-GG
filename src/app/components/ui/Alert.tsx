@@ -5,7 +5,7 @@ interface AlertProps {
   message: string;
 }
 
-const Alert: React.FC<AlertProps> = ({ type, message }) => {
+export default function Alert({ type, message }: AlertProps) {
   // Set different alert types and svg icons based on props
   const alertStyles = {
     success: {
@@ -52,6 +52,4 @@ const Alert: React.FC<AlertProps> = ({ type, message }) => {
       <span>{message}</span>
     </div>
   );
-};
-
-export default Alert;
+}

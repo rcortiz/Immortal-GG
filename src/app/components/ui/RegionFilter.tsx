@@ -7,7 +7,7 @@ interface RegionFilterProps {
   onRegionSelect: (region: string) => void;
 }
 
-const RegionFilter: React.FC<RegionFilterProps> = ({ onRegionSelect }) => {
+export default function RegionFilter({ onRegionSelect }: RegionFilterProps) {
   const regions = [
     { id: "se_asia", name: "SE Asia", style: { top: "70%", left: "70%" } },
     { id: "europe", name: "Europe", style: { top: "30%", left: "55%" } },
@@ -52,6 +52,4 @@ const RegionFilter: React.FC<RegionFilterProps> = ({ onRegionSelect }) => {
       </div>
     </div>
   );
-};
-
-export default RegionFilter;
+}
