@@ -3,11 +3,12 @@
 import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 import RegionFilter from "./components/ui/RegionFilter";
 import Loader from "./components/ui/Spinner";
 
-import { GET_LEADERBOARD } from "@/queries/getLeaderboard";
+import { GET_LEADERBOARD } from "@/graphql/getLeaderboard";
 import Alert from "./components/ui/Alert";
 
 interface Team {
@@ -51,11 +52,17 @@ interface LeaderboardData {
 }
 
 export default function HomePage() {
+  const router = useRouter();
   const [region, setRegion] = useState("SE_ASIA");
 
   const handleRegionSelect = (selectedRegion: string) => {
     setRegion(selectedRegion);
   };
+
+  const handleRowClick = (steamAccountId: number) => {
+    router.push(`/player/${steamAccountId}`);
+  };
+
   const { loading, error, data } = useQuery<LeaderboardData>(GET_LEADERBOARD, {
     variables: { leaderBoardDivision: region.toUpperCase() },
   });
@@ -99,8 +106,9 @@ export default function HomePage() {
                     {players.map((player, index) => {
                       return (
                         <tr
-                          key={index}
-                          className="h-14 overflow-hidden rounded-lg text-tx-primary odd:bg-ui-accent-primary even:bg-ui-accent-secondary"
+                          key={player.steamAccount.id}
+                          className="h-14 cursor-pointer overflow-hidden rounded-lg text-tx-primary odd:bg-ui-accent-primary even:bg-ui-accent-secondary"
+                          onClick={() => handleRowClick(player.steamAccount.id)}
                         >
                           <td>{player.rank}</td>
                           <td>
