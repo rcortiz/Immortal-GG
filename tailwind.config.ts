@@ -22,5 +22,5 @@ export default {
   daisyui: {
     themes: ["night", "dim"],
   },
-  plugins: [require("@tailwindcss/typography"), require("daisyui")],
+  plugins: [require("daisyui")],
 } satisfies Config;
