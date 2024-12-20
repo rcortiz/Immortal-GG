@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Reset some common browser styles */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* border: none; */
+}
+
+/* Set custom properties for light and dark modes */
+:root {
+  /* --background: #ffffff;
+  --foreground: #171717; */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* --background: #0a0a0a;
+    --foreground: #ededed; */
+    --background: #191624;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Ensure links and text input fields look consistent */
+a,
+button {
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+}
+
+button:focus {
+  outline: none;
+}
+
+input,
+textarea,
+button {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+/* Set default styles for common elements */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-weight: normal;
+}
+
+/* Customize default margins for specific elements */
+p {
+  margin: 0;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+li {
+  margin: 0;
+}
