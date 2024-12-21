@@ -74,7 +74,7 @@ export default function HomePage() {
     return <Alert type="error" message="Unable to fetch leaderboard data." />;
 
   return (
-    <div className="p-10 font-[family-name:var(--font-inter)]">
+    <div className="p-10">
       <div className="card bg-ui-card p-4">
         <div className="space-y-2 pb-4">
           <h1 className="mt-4 text-2xl font-bold text-tx-primary">

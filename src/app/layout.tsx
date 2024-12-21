@@ -20,7 +20,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" data-theme="dim">
-      <body className={`${inter.variable} antialiased`}>
+      <body
+        className={`${inter.variable} font-[family-name:var(--font-inter)] antialiased`}
+      >
         <ApolloWrapper>{children}</ApolloWrapper>
       </body>
     </html>
