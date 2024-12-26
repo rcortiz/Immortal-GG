@@ -30,6 +30,7 @@ interface Hero {
 }
 
 interface MatchPlayer {
+  isVictory: boolean;
   hero: Hero;
   gold: number;
   kills: number;
