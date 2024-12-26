@@ -14,6 +14,9 @@ export default {
         "ui-card": "#1b1c30",
         "ui-accent-primary": "#252740",
         "ui-accent-secondary": "#1F2037",
+        "ui-accent-win": "#42aa51",
+        "ui-accent-lose": "#c0363b",
+
         "tx-primary": "#FBFBFB",
         "tx-secondary": "#8283A3",
       },

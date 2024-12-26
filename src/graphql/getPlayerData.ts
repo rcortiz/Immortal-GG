@@ -30,6 +30,7 @@ export const GET_PLAYER_DATA = gql`
             displayName
             shortName
           }
+          isVictory
           gold
           kills
           deaths

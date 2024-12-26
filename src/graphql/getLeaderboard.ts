@@ -9,6 +9,7 @@ export const GET_LEADERBOARD = gql`
           steamAccountId
           steamAccount {
             id
+            isAnonymous
             profileUri
             countryCode
             name
