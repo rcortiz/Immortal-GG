@@ -9,15 +9,12 @@ import {
 } from "@apollo/experimental-nextjs-app-support";
 
 function makeClient(): ApolloClient<NormalizedCacheObject> {
-  const isServer = typeof window === "undefined";
   const httpLink = new HttpLink({
     uri: "https://api.stratz.com/graphql",
-    headers: isServer
-      ? {
-          Authorization: `Bearer ${process.env.STRATZ_API_KEY}`,
-          "User-Agent": "STRATZ_API",
-        }
-      : {},
+    headers: {
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRATZ_API_KEY}`,
+      "User-Agent": "STRATZ_API",
+    },
   });
 
   return new ApolloClient<NormalizedCacheObject>({
