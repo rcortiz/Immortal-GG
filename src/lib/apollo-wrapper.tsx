@@ -33,7 +33,7 @@ function makeClient(): ApolloClient<NormalizedCacheObject> {
 
 export function ApolloWrapper({ children }: React.PropsWithChildren) {
   return (
-    <ApolloNextAppProvider makeClient={() => makeClient() as any}>
+    <ApolloNextAppProvider makeClient={makeClient}>
       {children}
     </ApolloNextAppProvider>
   );
