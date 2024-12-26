@@ -15,9 +15,14 @@ const nextConfig: NextConfig = {
         pathname: "/**",
       },
       {
-        protocol: "http",
-        hostname: "cdn.dota2.com",
-        pathname: "/apps/dota2/images/heroes/**",
+        protocol: "https",
+        hostname: "cdn.stratz.com",
+        pathname: "/images/dota2/heroes/**",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn.stratz.com",
+        pathname: "/images/dota2/items/**",
       },
     ],
   },

@@ -13,12 +13,14 @@
     "@apollo/experimental-nextjs-app-support": "^0.11.7",
     "axios": "^1.7.9",
     "graphql": "^16.10.0",
+    "lodash": "^4.17.21",
     "next": "15.1.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@types/lodash": "^4.17.13",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

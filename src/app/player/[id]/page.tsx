@@ -4,8 +4,13 @@ import React from "react";
 import { useQuery } from "@apollo/client";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import _ from "lodash";
 
+import { ITEMS } from "@/constants/items";
+import { ROLES } from "@/constants/roles";
 import { GET_PLAYER_DATA } from "@/graphql/getPlayerData";
+
+import Badge from "@/app/components/ui/Badge";
 
 interface GuildData {
   name: string;
@@ -86,9 +91,19 @@ export default function PlayerProfilePage() {
 
   const matches = player?.matches || [];
 
+  const getItemNameById = (id: number) => {
+    const item = ITEMS.find((item) => item.id === id);
+    return item ? item.shortName : null;
+  };
+
+  const getRoles = (position: string) => {
+    const role = ROLES.find((role) => role.role === position);
+    return role ? role.name : null;
+  };
+
   console.log(matches);
   return (
-    <div className="container mx-auto h-screen p-10">
+    <div className="container mx-auto p-10">
       <div className="card flex h-[308px] items-center justify-center gap-y-3 bg-ui-card p-2">
         <div className="avatar">
           <div className="rounded-full">
@@ -113,28 +128,69 @@ export default function PlayerProfilePage() {
       <div className="mt-4">
         <h3 className="font-bold text-tx-primary">Recent Matches</h3>
         <div className="card">
-          <table className="table border-separate border-spacing-y-1">
-            {matches.map((match, index) => (
-              <tbody key={index}>
-                {match.players.map((player, index) => (
-                  <tr key={index}>
-                    <td className="w-80">
-                      <Image
-                        src={`http://cdn.dota2.com/apps/dota2/images/heroes/${player.hero.shortName}_full.png`}
-                        alt={player.hero.displayName}
-                        className="rounded-md"
-                        height={50}
-                        width={60}
-                      />
-                    </td>
-                    <td className="w-50">
-                      {player.kills} / {player.deaths} / {player.assists}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            ))}
-          </table>
+          <div className="overflow-x-auto">
+            <table className="table w-full border-separate border-spacing-y-1">
+              {matches.map((match, index) => (
+                <tbody key={index}>
+                  {match.players.map((player, index) => (
+                    <tr key={index}>
+                      <td className="w-1/5">
+                        <Image
+                          src={`https://cdn.stratz.com/images/dota2/heroes/${player.hero.shortName}_horz.png`}
+                          alt={player.hero.displayName}
+                          className="rounded-md"
+                          height={60}
+                          width={60}
+                        />
+                      </td>
+
+                      <td className="w-1/5">
+                        {player.kills} / {player.deaths} / {player.assists}
+                      </td>
+                      <td className="w-1/5">{player.gold}</td>
+                      <td className="w-1/5">
+                        <div className="flex items-center gap-x-2">
+                          <Image
+                            src={`/${player.position}.png`}
+                            alt={player.position}
+                            width={23}
+                            height={23}
+                            className="rounded-sm"
+                          />
+                          <p>{getRoles(player.position)}</p>
+                        </div>
+                      </td>
+                      <td className="w-1/5">
+                        <div className="grid grid-cols-3 gap-1">
+                          {_.range(6)
+                            .map(
+                              (i) => player[`item${i}Id` as keyof MatchPlayer],
+                            )
+                            .filter((id) => id !== null && id !== undefined)
+                            .map((itemId, idx) => {
+                              const itemName = getItemNameById(Number(itemId));
+                              return (
+                                <Image
+                                  key={idx}
+                                  src={`https://cdn.stratz.com/images/dota2/items/${itemName}.png`}
+                                  alt={`Item ${itemId}`}
+                                  height={45}
+                                  width={45}
+                                  className="rounded-md"
+                                />
+                              );
+                            })}
+                        </div>
+                      </td>
+                      <td className="w-1/5">
+                        <Badge type="win" />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              ))}
+            </table>
+          </div>
         </div>
       </div>
     </div>
