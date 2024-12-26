@@ -8,7 +8,7 @@ import {
   SSRMultipartLink,
 } from "@apollo/experimental-nextjs-app-support";
 
-function makeClient(): ApolloClient<any> {
+function makeClient() {
   const httpLink = new HttpLink({
     uri: "https://api.stratz.com/graphql",
     headers: {
@@ -17,7 +17,7 @@ function makeClient(): ApolloClient<any> {
     },
   });
 
-  return new ApolloClient<any>({
+  return new ApolloClient({
     cache: new InMemoryCache(),
     link:
       typeof window === "undefined"

@@ -77,7 +77,7 @@ export default function PlayerProfilePage() {
   const pathname = usePathname();
   const steamAccountId = pathname.split("/")[2];
 
-  const { loading, error, data } = useQuery(GET_PLAYER_DATA, {
+  const { loading, error, data } = useQuery<PlayerData>(GET_PLAYER_DATA, {
     variables: { steamAccountId: Number(steamAccountId) },
     skip: !steamAccountId,
   });
