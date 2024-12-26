@@ -1,6 +1,6 @@
 "use client";
 
-import { ApolloLink, HttpLink } from "@apollo/client";
+import { ApolloLink, HttpLink, NormalizedCacheObject } from "@apollo/client";
 import {
   ApolloClient,
   ApolloNextAppProvider,
@@ -8,7 +8,7 @@ import {
   SSRMultipartLink,
 } from "@apollo/experimental-nextjs-app-support";
 
-function makeClient() {
+function makeClient(): ApolloClient<NormalizedCacheObject> {
   const httpLink = new HttpLink({
     uri: "https://api.stratz.com/graphql",
     headers: {
@@ -17,7 +17,7 @@ function makeClient() {
     },
   });
 
-  return new ApolloClient({
+  return new ApolloClient<NormalizedCacheObject>({
     cache: new InMemoryCache(),
     link:
       typeof window === "undefined"
