@@ -18,7 +18,7 @@ const errorLink = new ApolloLink((operation, forward) => {
 });
 
 const httpLink = new HttpLink({
-  uri: "https://api.stratz.com/graphiql",
+  uri: "https://api.stratz.com/graphql",
   headers: {
     Authorization: `Bearer ${process.env.STRATZ_API_KEY}`,
     "User-Agent": "STRATZ_API",
