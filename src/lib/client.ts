@@ -41,7 +41,6 @@ const httpLink = new HttpLink({
 });
 
 export const { getClient } = registerApolloClient(() => {
-  console.log("STRATZ_API_KEY:", process.env.STRATZ_API_KEY);
   return new ApolloClient({
     cache: new InMemoryCache(),
     link: ApolloLink.from([errorLink, httpLink]),
