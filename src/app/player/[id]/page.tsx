@@ -106,11 +106,11 @@ export default function PlayerProfilePage() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div>
       {loading ? (
         <Spinner />
       ) : (
-        <div className="container mx-auto p-10">
+        <div className="">
           <div className="card flex h-[308px] items-center justify-center gap-y-3 bg-ui-card p-2">
             <div className="avatar">
               <div className="rounded-lg bg-white/5 p-3">
@@ -155,7 +155,7 @@ export default function PlayerProfilePage() {
                         {match.players.map((player, index) => (
                           <tr
                             key={index}
-                            className="h-14 odd:bg-ui-accent-primary even:bg-ui-accent-secondary"
+                            className="odd:bg-ui-accent-primary even:bg-ui-accent-secondary"
                           >
                             <td className="w-1/6">
                               <Image
@@ -164,6 +164,7 @@ export default function PlayerProfilePage() {
                                 className="rounded-md"
                                 height={65}
                                 width={65}
+                                loading="lazy"
                               />
                             </td>
                             <td className="w-1/6">
@@ -182,7 +183,7 @@ export default function PlayerProfilePage() {
                               </div>
                             </td>
                             <td className="w-1/6">
-                              <div className="flex items-center justify-center">
+                              <div className="flex items-center">
                                 <p>{player.kills}</p>
                                 <span className="mx-2 opacity-25">/</span>
                                 <p>{player.deaths}</p>
@@ -191,9 +192,8 @@ export default function PlayerProfilePage() {
                               </div>
                             </td>
                             <td className="w-1/6">{player.gold}</td>
-
                             <td className="w-1/6">
-                              <div className="grid grid-cols-3 gap-2">
+                              <div className="grid h-[75px] w-[160px] grid-cols-3 gap-2">
                                 {_.range(6)
                                   .map(
                                     (i) =>
@@ -215,9 +215,9 @@ export default function PlayerProfilePage() {
                                         <Image
                                           src={`https://cdn.stratz.com/images/dota2/items/${itemName?.shortName}.png`}
                                           alt={`Item ${itemName?.shortName}`}
-                                          height={45}
-                                          width={45}
-                                          className="rounded-md"
+                                          fill={true}
+                                          className="rounded-lg object-fill"
+                                          loading="lazy"
                                         />
                                       </div>
                                     );

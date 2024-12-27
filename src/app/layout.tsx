@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "../styles/globals.css";
 import { ApolloWrapper } from "@/lib/apollo-wrapper";
+import Layout from "./components/layout/Layout";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -23,7 +24,9 @@ export default function RootLayout({
       <body
         className={`${inter.variable} font-[family-name:var(--font-inter)] antialiased`}
       >
-        <ApolloWrapper>{children}</ApolloWrapper>
+        <ApolloWrapper>
+          <Layout>{children}</Layout>
+        </ApolloWrapper>
       </body>
     </html>
   );

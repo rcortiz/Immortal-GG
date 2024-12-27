@@ -22,8 +22,5 @@ export default {
       },
     },
   },
-  daisyui: {
-    themes: ["night", "dim"],
-  },
   plugins: [require("daisyui")],
 } satisfies Config;
