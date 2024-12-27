@@ -35,6 +35,7 @@ export default function RegionFilter({ onRegionSelect }: RegionFilterProps) {
             src="/map.svg"
             alt="World Map"
             fill
+            priority={true}
             className="absolute object-contain"
           />
         </div>
