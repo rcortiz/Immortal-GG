@@ -16,6 +16,7 @@ export const GET_PLAYER_DATA = gql`
           guildId
           guild {
             name
+            tag
           }
         }
       }
