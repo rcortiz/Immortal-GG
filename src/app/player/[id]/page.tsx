@@ -144,7 +144,7 @@ function MatchTable({ matches }: { matches: Match[] }) {
   };
 
   return (
-    <div>
+    <div className="overflow-y-auto">
       <table className="table border-separate border-spacing-y-1">
         <tbody>
           {matches.flatMap((match, matchIndex) =>
