@@ -9,14 +9,14 @@ interface RegionFilterProps {
 
 export default function RegionFilter({ onRegionSelect }: RegionFilterProps) {
   const regions = [
-    { id: "se_asia", name: "SE Asia", style: { top: "53%", left: "62%" } },
-    { id: "europe", name: "Europe", style: { top: "36%", left: "55%" } },
+    { id: "se_asia", name: "SE Asia", style: { top: "55%", left: "60%" } },
+    { id: "europe", name: "Europe", style: { top: "30%", left: "55%" } },
     {
       id: "americas",
       name: "Americas",
-      style: { top: "36%", left: "34%" },
+      style: { top: "36%", left: "37%" },
     },
-    { id: "china", name: "China", style: { top: "31%", left: "67%" } },
+    { id: "china", name: "China", style: { top: "26%", left: "63%" } },
   ];
   return (
     <div className="relative rounded-md bg-black text-white">

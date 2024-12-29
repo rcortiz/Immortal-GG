@@ -156,33 +156,35 @@ function MatchTable({ matches }: { matches: Match[] }) {
                   key={`${matchIndex}-${playerIndex}`}
                   className="p-2 odd:bg-ui-accent-primary even:bg-ui-accent-secondary"
                 >
-                  <td className="w-1/7">
+                  <td className="w-1/8">
                     <Image
                       src={`https://cdn.stratz.com/images/dota2/heroes/${player.hero.shortName}_horz.png`}
-                      alt={player.hero.displayName}
+                      alt={player.hero.displayName || "Hero"}
                       className="rounded-md"
                       height={65}
                       width={65}
                       loading="lazy"
                     />
                   </td>
-                  <td className="w-1/7">
+                  <td className="w-1/8">
                     <Badge type={player.isVictory ? "win" : "lose"} />
                   </td>
 
-                  <td className="w-1/7">
-                    <div className="flex items-center gap-x-2">
-                      <Image
-                        src={`/${player.position}.png`}
-                        alt={player.position}
-                        width={23}
-                        height={23}
-                        className="rounded-sm"
-                      />
-                      <p>{getRoles(player.position)}</p>
-                    </div>
+                  <td className="w-1/8">
+                    {player.position ? (
+                      <div className="flex items-center gap-x-2">
+                        <Image
+                          src={`/${player.position}.png`}
+                          alt={`Position: ${player.position}`}
+                          width={23}
+                          height={23}
+                          className="rounded-sm"
+                        />
+                        <p>{getRoles(player.position)}</p>
+                      </div>
+                    ) : null}
                   </td>
-                  <td className="w-1/7">
+                  <td className="w-1/8">
                     <div className="flex items-center">
                       <p>{player.kills}</p>
                       <span className="mx-2 opacity-25">/</span>
@@ -191,8 +193,45 @@ function MatchTable({ matches }: { matches: Match[] }) {
                       <p>{player.assists}</p>
                     </div>
                   </td>
-                  <td className="w-1/7">Networth: {player.networth}</td>
-                  <td className="w-1/7">
+                  <td className="w-1/8">
+                    <div className="flex items-center space-x-6">
+                      <div className="flex flex-row items-center">
+                        <Image
+                          src="/sword.svg"
+                          alt="Anonymous"
+                          height={16}
+                          width={16}
+                          className="mr-2"
+                        />
+                        <span> {player.numLastHits}</span>
+                      </div>
+                      <div className="flex flex-row items-center">
+                        <Image
+                          src="/skull.svg"
+                          alt="Anonymous"
+                          height={16}
+                          width={16}
+                          className="mr-2"
+                        />
+                        <span> {player.numDenies}</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="w-1/8">
+                    <div className="flex items-center space-x-2">
+                      <div className="tooltip" data-tip="networth">
+                        <Image
+                          src="/gold.svg"
+                          alt="Anonymous"
+                          height={16}
+                          width={16}
+                          className="ml-4"
+                        />
+                      </div>
+                      <span> {player.networth}</span>
+                    </div>
+                  </td>
+                  <td className="w-1/8">
                     <div className="grid h-[75px] w-[160px] grid-cols-3 gap-2">
                       {Array.from({ length: 6 }).map((_, i) => {
                         const itemId = player[
@@ -208,7 +247,7 @@ function MatchTable({ matches }: { matches: Match[] }) {
                             >
                               <Image
                                 src={`https://cdn.stratz.com/images/dota2/items/${itemName?.shortName}.png`}
-                                alt={`Item ${itemName?.shortName}`}
+                                alt={`Item: ${itemName?.displayName}`}
                                 fill={true}
                                 className="rounded-lg object-fill"
                                 loading="lazy"
@@ -226,7 +265,7 @@ function MatchTable({ matches }: { matches: Match[] }) {
                       })}
                     </div>
                   </td>
-                  <td className="w-1/7">
+                  <td className="w-1/8">
                     <div className="flex flex-col items-end">
                       <span>{duration}</span>
                       <span>{endDateTime}</span>
@@ -269,7 +308,7 @@ export default function PlayerProfilePage() {
               <div className="card flex h-[180px] items-center justify-center bg-ui-card text-tx-primary">
                 <Image
                   src="/anonymous.svg"
-                  alt="Anonymouse"
+                  alt="Anonymous profile icon"
                   height={40}
                   width={40}
                 />

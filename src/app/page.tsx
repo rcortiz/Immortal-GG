@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import { useQuery } from "@apollo/client";
 import Image from "next/image";
+import { useQuery } from "@apollo/client";
 import { useRouter } from "next/navigation";
+
+import { GET_LEADERBOARD } from "@/graphql/getLeaderboard";
 
 import RegionFilter from "./components/ui/RegionFilter";
 import Spinner from "./components/ui/Spinner";
-
-import { GET_LEADERBOARD } from "@/graphql/getLeaderboard";
 import Alert from "./components/ui/Alert";
 
 interface Team {
@@ -135,6 +135,19 @@ export default function HomePage() {
                           </td>
                           <td>
                             <div className="flex items-center">
+                              <p>
+                                {player.steamAccount.proSteamAccount &&
+                                player.steamAccount.proSteamAccount.team
+                                  ?.tag ? (
+                                  <>
+                                    <strong className="text-yellow-500">
+                                      {`${player.steamAccount.proSteamAccount.team?.tag || ""}.${player.steamAccount.proSteamAccount.name}`}
+                                    </strong>
+                                  </>
+                                ) : (
+                                  player.steamAccount.name
+                                )}
+                              </p>
                               {player.steamAccount.isAnonymous && (
                                 <div
                                   className="tooltip"
@@ -142,19 +155,13 @@ export default function HomePage() {
                                 >
                                   <Image
                                     src="/question-mark.svg"
-                                    alt="Anonymouse"
+                                    alt="Anonymous"
                                     height={16}
                                     width={16}
-                                    className="mr-4"
+                                    className="ml-4"
                                   />
                                 </div>
                               )}
-
-                              <p>
-                                {player.steamAccount.proSteamAccount
-                                  ? `${player.steamAccount.proSteamAccount.team?.tag || ""}.${player.steamAccount.proSteamAccount.name}`
-                                  : player.steamAccount.name}
-                              </p>
                             </div>
                           </td>
                           <td>

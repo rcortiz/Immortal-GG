@@ -22,7 +22,7 @@ export const GET_PLAYER_DATA = gql`
       }
       winCount
       matchCount
-      matches(request: { bracketIds: [8], lobbyTypeIds: [2, 7] }) {
+      matches(request: { bracketIds: [8], lobbyTypeIds: [2, 7], take: 100 }) {
         didRadiantWin
         durationSeconds
         endDateTime
