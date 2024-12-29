@@ -10,6 +10,7 @@ import { GET_LEADERBOARD } from "@/graphql/getLeaderboard";
 import RegionFilter from "./components/ui/RegionFilter";
 import Spinner from "./components/ui/Spinner";
 import Alert from "./components/ui/Alert";
+import Medal from "./components/ui/MedalIcon";
 
 interface Team {
   name: string;
@@ -54,6 +55,14 @@ interface Leaderboard {
 interface LeaderboardData {
   leaderboard: Leaderboard;
 }
+
+const getMedalColor = (rank: number): string => {
+  console.log(rank);
+  if (rank === 1) return "#FFD700"; // Gold
+  if (rank === 2) return "#C0C0C0"; // Silver
+  if (rank === 3) return "#CD7F32"; // Bronze
+  return "#FBFBFB"; // Default color for other ranks
+};
 
 export default function HomePage() {
   const router = useRouter();
@@ -114,7 +123,13 @@ export default function HomePage() {
                           className="h-14 cursor-pointer overflow-hidden rounded-lg text-tx-primary odd:bg-ui-accent-primary even:bg-ui-accent-secondary"
                           onClick={() => handleRowClick(player.steamAccount.id)}
                         >
-                          <td>{player.rank}</td>
+                          <td>
+                            <Medal
+                              bgColor={getMedalColor(player.rank)}
+                              content={String(player.rank)}
+                              // useGradient={true}
+                            />
+                          </td>
                           <td>
                             {player.position ? (
                               <div
