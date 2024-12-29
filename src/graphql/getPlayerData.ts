@@ -22,8 +22,10 @@ export const GET_PLAYER_DATA = gql`
       }
       winCount
       matchCount
-      matches(request: { bracketIds: [8], positionIds: [POSITION_2] }) {
+      matches(request: { bracketIds: [8], lobbyTypeIds: [2, 7] }) {
         didRadiantWin
+        durationSeconds
+        endDateTime
         players(steamAccountId: $steamAccountId) {
           hero {
             id
@@ -44,6 +46,14 @@ export const GET_PLAYER_DATA = gql`
           item3Id
           item4Id
           item5Id
+          backpack0Id
+          backpack1Id
+          backpack2Id
+          neutral0Id
+          networth
+          numLastHits
+          numDenies
+          isRadiant
         }
       }
     }

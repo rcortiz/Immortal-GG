@@ -13,10 +13,13 @@ import Alert from "./components/ui/Alert";
 
 interface Team {
   name: string;
+  tag: string;
   logo: string;
 }
 
 interface ProSteamAccount {
+  realName: string;
+  name: string;
   team: Team;
 }
 
@@ -147,7 +150,11 @@ export default function HomePage() {
                                 </div>
                               )}
 
-                              <p>{player.steamAccount.name}</p>
+                              <p>
+                                {player.steamAccount.proSteamAccount
+                                  ? `${player.steamAccount.proSteamAccount.team?.tag || ""}.${player.steamAccount.proSteamAccount.name}`
+                                  : player.steamAccount.name}
+                              </p>
                             </div>
                           </td>
                           <td>

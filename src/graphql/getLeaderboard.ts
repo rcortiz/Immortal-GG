@@ -16,8 +16,11 @@ export const GET_LEADERBOARD = gql`
             avatar
             seasonRank
             proSteamAccount {
+              realName
+              name
               team {
                 name
+                tag
                 logo
               }
             }

@@ -8,6 +8,7 @@ import Image from "next/image";
 import { ITEMS } from "@/constants/items";
 import { ROLES } from "@/constants/roles";
 import { GET_PLAYER_DATA } from "@/graphql/getPlayerData";
+import { formatRelativeTime, formatToMinutesAndSeconds } from "@/lib/date-fns";
 
 import Spinner from "@/app/components/ui/Spinner";
 import Badge from "@/app/components/ui/Badge";
@@ -44,10 +45,20 @@ interface MatchPlayer {
   item3Id?: number | null;
   item4Id?: number | null;
   item5Id?: number | null;
+  backpack0Id?: number | null;
+  backpack1Id?: number | null;
+  backpack2Id?: number | null;
+  neutral0Id?: number | null;
+  networth: number;
+  numLastHits: number;
+  numDenies: number;
+  isRadiant: boolean;
 }
 
 interface Match {
   didRadiantWin: boolean;
+  endDateTime: number;
+  durationSeconds: number;
   players: MatchPlayer[];
 }
 
@@ -110,10 +121,6 @@ function PlayerProfile({
           <p>Dota Level: {steamAccount?.dotaAccountLevel || "N/A"}</p>
           <span className="mx-2">•</span>
           <p>Season Rank: {steamAccount?.seasonRank || "N/A"}</p>
-          {/* <span className="mx-2">•</span>
-          <p>Matches Played: {player?.matchCount || 0}</p>
-          <span className="mx-2">•</span>
-          <p>Matches Won: {player?.winCount || 0}</p> */}
         </div>
       </div>
     </div>
@@ -141,78 +148,93 @@ function MatchTable({ matches }: { matches: Match[] }) {
       <table className="table border-separate border-spacing-y-1">
         <tbody>
           {matches.flatMap((match, matchIndex) =>
-            match.players.map((player, playerIndex) => (
-              <tr
-                key={`${matchIndex}-${playerIndex}`}
-                className="p-2 odd:bg-ui-accent-primary even:bg-ui-accent-secondary"
-              >
-                <td className="w-1/6">
-                  <Image
-                    src={`https://cdn.stratz.com/images/dota2/heroes/${player.hero.shortName}_horz.png`}
-                    alt={player.hero.displayName}
-                    className="rounded-md"
-                    height={65}
-                    width={65}
-                    loading="lazy"
-                  />
-                </td>
-                <td className="w-1/6">
-                  <Badge type={player.isVictory ? "win" : "lose"} />
-                </td>
-                <td className="w-1/6">
-                  <div className="flex items-center gap-x-2">
+            match.players.map((player, playerIndex) => {
+              const endDateTime = formatRelativeTime(match.endDateTime);
+              const duration = formatToMinutesAndSeconds(match.durationSeconds);
+              return (
+                <tr
+                  key={`${matchIndex}-${playerIndex}`}
+                  className="p-2 odd:bg-ui-accent-primary even:bg-ui-accent-secondary"
+                >
+                  <td className="w-1/7">
                     <Image
-                      src={`/${player.position}.png`}
-                      alt={player.position}
-                      width={23}
-                      height={23}
-                      className="rounded-sm"
+                      src={`https://cdn.stratz.com/images/dota2/heroes/${player.hero.shortName}_horz.png`}
+                      alt={player.hero.displayName}
+                      className="rounded-md"
+                      height={65}
+                      width={65}
+                      loading="lazy"
                     />
-                    <p>{getRoles(player.position)}</p>
-                  </div>
-                </td>
-                <td className="w-1/6">
-                  <div className="flex items-center">
-                    <p>{player.kills}</p>
-                    <span className="mx-2 opacity-25">/</span>
-                    <p>{player.deaths}</p>
-                    <span className="mx-2 opacity-25">/</span>
-                    <p>{player.assists}</p>
-                  </div>
-                </td>
-                <td className="w-1/6">{player.gold}</td>
-                <td className="w-1/6">
-                  <div className="grid h-[75px] w-[160px] grid-cols-3 gap-2">
-                    {Array.from({ length: 6 })
-                      .map(
-                        (_, i) =>
-                          player[`item${i}Id` as keyof MatchPlayer] as
-                            | number
-                            | null,
-                      )
-                      .filter(Boolean)
-                      .map((itemId, idx) => {
-                        const itemName = getItemNameById(itemId!);
-                        return (
-                          <div
-                            className="tooltip"
-                            data-tip={itemName?.displayName}
-                            key={idx}
-                          >
-                            <Image
-                              src={`https://cdn.stratz.com/images/dota2/items/${itemName?.shortName}.png`}
-                              alt={`Item ${itemName?.shortName}`}
-                              fill={true}
-                              className="rounded-lg object-fill"
-                              loading="lazy"
-                            />
-                          </div>
-                        );
+                  </td>
+                  <td className="w-1/7">
+                    <Badge type={player.isVictory ? "win" : "lose"} />
+                  </td>
+
+                  <td className="w-1/7">
+                    <div className="flex items-center gap-x-2">
+                      <Image
+                        src={`/${player.position}.png`}
+                        alt={player.position}
+                        width={23}
+                        height={23}
+                        className="rounded-sm"
+                      />
+                      <p>{getRoles(player.position)}</p>
+                    </div>
+                  </td>
+                  <td className="w-1/7">
+                    <div className="flex items-center">
+                      <p>{player.kills}</p>
+                      <span className="mx-2 opacity-25">/</span>
+                      <p>{player.deaths}</p>
+                      <span className="mx-2 opacity-25">/</span>
+                      <p>{player.assists}</p>
+                    </div>
+                  </td>
+                  <td className="w-1/7">Networth: {player.networth}</td>
+                  <td className="w-1/7">
+                    <div className="grid h-[75px] w-[160px] grid-cols-3 gap-2">
+                      {Array.from({ length: 6 }).map((_, i) => {
+                        const itemId = player[
+                          `item${i}Id` as keyof MatchPlayer
+                        ] as number | null;
+                        if (itemId) {
+                          const itemName = getItemNameById(itemId);
+                          return (
+                            <div
+                              className="tooltip"
+                              data-tip={itemName?.displayName}
+                              key={`item-${i}`}
+                            >
+                              <Image
+                                src={`https://cdn.stratz.com/images/dota2/items/${itemName?.shortName}.png`}
+                                alt={`Item ${itemName?.shortName}`}
+                                fill={true}
+                                className="rounded-lg object-fill"
+                                loading="lazy"
+                              />
+                            </div>
+                          );
+                        } else {
+                          return (
+                            <div
+                              className="rounded-lg bg-white/10"
+                              key={`placeholder-${i}`}
+                            ></div>
+                          );
+                        }
                       })}
-                  </div>
-                </td>
-              </tr>
-            )),
+                    </div>
+                  </td>
+                  <td className="w-1/7">
+                    <div className="flex flex-col items-end">
+                      <span>{duration}</span>
+                      <span>{endDateTime}</span>
+                    </div>
+                  </td>
+                </tr>
+              );
+            }),
           )}
         </tbody>
       </table>
@@ -240,7 +262,7 @@ export default function PlayerProfilePage() {
       {loading ? (
         <Spinner />
       ) : (
-        <div className="container mx-auto">
+        <div>
           <PlayerProfile steamAccount={steamAccount} />
           <div className="mt-4">
             {steamAccount?.isAnonymous ? (
