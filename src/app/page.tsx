@@ -127,7 +127,6 @@ export default function HomePage() {
                             <Medal
                               bgColor={getMedalColor(player.rank)}
                               content={String(player.rank)}
-                              // useGradient={true}
                             />
                           </td>
                           <td>

@@ -13,6 +13,7 @@ import { formatRelativeTime, formatToMinutesAndSeconds } from "@/lib/date-fns";
 import Spinner from "@/app/components/ui/Spinner";
 import Badge from "@/app/components/ui/Badge";
 import Alert from "@/app/components/ui/Alert";
+import LevelIcon from "@/app/components/ui/LevelIcon";
 
 interface GuildData {
   name: string;
@@ -87,23 +88,32 @@ interface PlayerData {
 
 function PlayerProfile({
   steamAccount,
+  player,
 }: {
   steamAccount: SteamAccount | null;
+  player: Player | null;
 }) {
   if (!steamAccount) return null;
 
   return (
-    <div className="card flex h-[308px] items-center justify-center gap-y-3 bg-ui-card p-2">
-      <div className="avatar">
-        <Image
-          src={
-            steamAccount?.avatar ? steamAccount.avatar : "/default_profile.png"
-          }
-          alt={steamAccount?.name || "Player"}
-          width={65}
-          height={65}
-          className="rounded-full"
-        />
+    <div className="from-ui-gradient-primary to-ui-gradient-secondary card flex h-[308px] items-center justify-center gap-y-3 bg-gradient-to-r p-2">
+      <div className="relative">
+        <div className="border-ui-border-pimary avatar overflow-hidden rounded-lg border-8">
+          <Image
+            src={
+              steamAccount?.avatar
+                ? steamAccount.avatar
+                : "/default_profile.png"
+            }
+            alt={steamAccount?.name || "Player"}
+            width={65}
+            height={65}
+            className="object-cover"
+          />
+        </div>
+        <div className="absolute bottom-2 left-1/2 translate-x-[-50%] translate-y-[50%] transform">
+          <LevelIcon content={String(steamAccount.seasonRank)} />
+        </div>
       </div>
       <div className="flex flex-col items-center">
         <div className="space-x-2">
@@ -118,9 +128,9 @@ function PlayerProfile({
         </div>
 
         <div className="mt-2 flex gap-x-2 text-xs font-bold text-tx-secondary">
-          <p>Dota Level: {steamAccount?.dotaAccountLevel || "N/A"}</p>
+          <p>Match Count: {player?.matchCount || "N/A"}</p>
           <span className="mx-2">•</span>
-          <p>Season Rank: {steamAccount?.seasonRank || "N/A"}</p>
+          <p>Win Count: {player?.winCount || "N/A"}</p>
         </div>
       </div>
     </div>
@@ -157,14 +167,15 @@ function MatchTable({ matches }: { matches: Match[] }) {
                   className="p-2 odd:bg-ui-accent-primary even:bg-ui-accent-secondary"
                 >
                   <td className="w-1/8">
-                    <Image
-                      src={`https://cdn.stratz.com/images/dota2/heroes/${player.hero.shortName}_horz.png`}
-                      alt={player.hero.displayName || "Hero"}
-                      className="rounded-md"
-                      height={65}
-                      width={65}
-                      loading="lazy"
-                    />
+                    <div className="relative h-[45px] w-[80px]">
+                      <Image
+                        src={`https://cdn.stratz.com/images/dota2/heroes/${player.hero.shortName}_horz.png`}
+                        alt={player.hero.displayName || "Hero"}
+                        className="rounded-md object-fill"
+                        fill
+                        loading="lazy"
+                      />
+                    </div>
                   </td>
                   <td className="w-1/8">
                     <Badge type={player.isVictory ? "win" : "lose"} />
@@ -178,7 +189,7 @@ function MatchTable({ matches }: { matches: Match[] }) {
                           alt={`Position: ${player.position}`}
                           width={23}
                           height={23}
-                          className="rounded-sm"
+                          className="hidden md:block"
                         />
                         <p>{getRoles(player.position)}</p>
                       </div>
@@ -194,24 +205,22 @@ function MatchTable({ matches }: { matches: Match[] }) {
                     </div>
                   </td>
                   <td className="w-1/8">
-                    <div className="flex items-center space-x-6">
-                      <div className="flex flex-row items-center">
+                    <div className="flex flex-col items-center justify-center space-y-2 md:flex-row md:space-x-6 md:space-y-0">
+                      <div className="flex flex-row items-center space-x-2">
                         <Image
                           src="/sword.svg"
                           alt="Anonymous"
                           height={16}
                           width={16}
-                          className="mr-2"
                         />
                         <span> {player.numLastHits}</span>
                       </div>
-                      <div className="flex flex-row items-center">
+                      <div className="flex flex-row items-center space-x-2">
                         <Image
                           src="/skull.svg"
                           alt="Anonymous"
                           height={16}
                           width={16}
-                          className="mr-2"
                         />
                         <span> {player.numDenies}</span>
                       </div>
@@ -225,7 +234,7 @@ function MatchTable({ matches }: { matches: Match[] }) {
                           alt="Anonymous"
                           height={16}
                           width={16}
-                          className="ml-4"
+                          className="ml-4 hidden md:block"
                         />
                       </div>
                       <span> {player.networth}</span>
@@ -302,7 +311,7 @@ export default function PlayerProfilePage() {
         <Spinner />
       ) : (
         <div>
-          <PlayerProfile steamAccount={steamAccount} />
+          <PlayerProfile steamAccount={steamAccount} player={player} />
           <div className="mt-4">
             {steamAccount?.isAnonymous ? (
               <div className="card flex h-[180px] items-center justify-center bg-ui-card text-tx-primary">

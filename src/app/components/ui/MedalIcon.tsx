@@ -5,7 +5,7 @@ interface MedalIconProps {
   content?: string;
 }
 
-const MedalIcon: React.FC<MedalIconProps> = ({ bgColor, content }) => {
+export default function MedalIcon({ bgColor, content }: MedalIconProps) {
   return (
     <svg
       viewBox="0 0 235 235"
@@ -31,6 +31,4 @@ const MedalIcon: React.FC<MedalIconProps> = ({ bgColor, content }) => {
       )}
     </svg>
   );
-};
-
-export default MedalIcon;
+}
